@@ -17,6 +17,12 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
+        Route::prefix('clases')->name('clases.')->group(function (){
+            Route::get('/', 'ClaseController@index')->name('index');
+            Route::get('create', 'ClaseController@create')->name('create');
+            Route::get('store', 'ClaseController@store')->name('store');
+        });
+
 });
 
 Auth::routes();
