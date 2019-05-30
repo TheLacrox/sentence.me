@@ -23,8 +23,7 @@ class ClaseController extends Controller
      */
     public function index()
     {
-       $user= $this->user->find(Auth::id());
-       $clases=$user->clases();
+       $clases=$this->clase->getuserclases(Auth::user());
        return View::make('clase.index')
                         ->with('clases',$clases);
     }
@@ -47,7 +46,8 @@ class ClaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->clase->create($request->toArray());
+        return redirect('clases.index');
     }
 
     /**

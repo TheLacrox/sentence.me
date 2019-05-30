@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\Clase;
+use App\Clase;
 use App\Repositories\ClaseRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ClaseRepository implements ClaseRepositoryInterface
 {
@@ -17,9 +18,14 @@ class ClaseRepository implements ClaseRepositoryInterface
      *
      * @return Clase list
      **/
-    public function list()
+    public function getuserclases($user)
     {
-        return Clase::all();
+        if($user->hasRole('Profesor')){
+            $clases=$user->clasesProfesor()->get();
+        }else{
+            $clases=$user->clases()->get();
+        };
+        return $clases;
     }
 
     /**
@@ -30,9 +36,9 @@ class ClaseRepository implements ClaseRepositoryInterface
      **/
     public function create($clasedata)
     {
-        $this->user->find();
         $clase = new Clase;
-        $clase->fill($clasedata)->save();
+        $clase->fill($clasedata);
+        $clase->user()->associate(Auth::user())->save();
         return $clase;
     }
 

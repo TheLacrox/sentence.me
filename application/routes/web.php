@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('clases')->name('clases.')->group(function (){
             Route::get('/', 'ClaseController@index')->name('index');
             Route::get('create', 'ClaseController@create')->name('create');
-            Route::get('store', 'ClaseController@store')->name('store');
+            Route::post('store', 'ClaseController@store')->name('store');
         });
 
 });
