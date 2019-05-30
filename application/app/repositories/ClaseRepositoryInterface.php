@@ -16,10 +16,10 @@ interface ClaseRepositoryInterface
     /**
      * Store a newly created Clase in storage.
      *
-     * @param  Array fill with everything (include role)
+     * @param  Array fill with everything
      * @return Clase Created
      **/
-    public function save($Clasedata);
+    public function create($clasedata);
 
     /**
      * Find the specific Clase

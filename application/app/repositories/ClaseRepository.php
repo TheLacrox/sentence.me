@@ -4,9 +4,14 @@ namespace App\Repositories;
 
 use App\Models\Clase;
 use App\Repositories\ClaseRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 
 class ClaseRepository implements ClaseRepositoryInterface
 {
+    public function __construct(UserRepositoryInterface $user)
+    {
+        $this->user = $user;
+    }
     /**
      * Return all the Clases
      *
@@ -23,12 +28,12 @@ class ClaseRepository implements ClaseRepositoryInterface
      * @param  Array fill with everything (include role)
      * @return Clase Created
      **/
-    public function save($Clasedata)
+    public function create($clasedata)
     {
-        $Clase = new Clase;
-        $Clase->fill($Clasedata)->save();
-        $Clase->assignRole($Clasedata['role']);
-        return $Clase;
+        $this->user->find();
+        $clase = new Clase;
+        $clase->fill($clasedata)->save();
+        return $clase;
     }
 
     /**

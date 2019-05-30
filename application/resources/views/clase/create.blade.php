@@ -11,14 +11,14 @@
                     <form method="POST" action="{{ route('clases.store') }}">
                         @csrf
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="descripcion" class="col-md-4 col-form-label text-md-right"> Descripción</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" rows="5" id="descripcion"></textarea>
