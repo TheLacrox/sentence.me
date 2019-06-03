@@ -7,14 +7,16 @@ use App\Repositories\ClaseRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use App\Repositories\TareaRepositoryInterface;
 
 class ClaseController extends Controller
 {
 
-    public function __construct(ClaseRepositoryInterface $clase, UserRepositoryInterface $user)
+    public function __construct(ClaseRepositoryInterface $clase, UserRepositoryInterface $user,TareaRepositoryInterface $tarea)
     {
         $this->clase = $clase;
         $this->user = $user;
+        $this->tarea = $tarea;
     }
     /**
      * Display a listing of the resource.
@@ -67,7 +69,7 @@ class ClaseController extends Controller
     public function show($id)
     {
         $clase = $this->clase->getClase($id);
-        $tareas = $this->getTareas($clase);
+        $tareas = $this->tarea->getTareas($clase);
         return View::make('clase.show', ['tareas' => $tareas, 'clase' => $clase]);
     }
 
