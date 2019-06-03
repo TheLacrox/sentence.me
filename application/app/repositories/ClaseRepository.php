@@ -64,7 +64,6 @@ class ClaseRepository implements ClaseRepositoryInterface
     {
         $Clase = $this->find($id);
         $Clase->fill($formdata);
-        $Clase->status_id = $formdata['status'];
         $Clase->save();
         return $Clase;
     }
@@ -80,5 +79,8 @@ class ClaseRepository implements ClaseRepositoryInterface
         $Clase = $this->find($id);
         $Clase->delete();
         return true;
+    }
+    public function getClase($id){
+        return $this->find($id);
     }
 }

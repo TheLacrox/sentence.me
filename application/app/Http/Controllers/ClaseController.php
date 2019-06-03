@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\View;
 class ClaseController extends Controller
 {
 
-    public function __construct(ClaseRepositoryInterface $clase,UserRepositoryInterface $user)
+    public function __construct(ClaseRepositoryInterface $clase, UserRepositoryInterface $user)
     {
         $this->clase = $clase;
         $this->user = $user;
@@ -23,9 +23,13 @@ class ClaseController extends Controller
      */
     public function index()
     {
-       $clases=$this->clase->getuserclases(Auth::user());
-       return View::make('clase.index')
-                        ->with('clases',$clases);
+        if (Auth::user()->hasRole('Profesor')) {
+            $clases = $this->clase->getuserclases(Auth::user());
+            return View::make('clase.index')
+                ->with('clases', $clases);
+        } else {
+            return redirect('clase.index')->with('error', 'No Tienes permitido Crear una clase');
+        }
     }
 
     /**
@@ -35,7 +39,11 @@ class ClaseController extends Controller
      */
     public function create()
     {
-        return View::make('clase.create');
+        if (Auth::user()->hasRole('Profesor')) {
+            return View::make('clase.create');
+        } else {
+            return redirect('clase.index')->with('error', 'No Tienes permitido Crear una clase');
+        }
     }
 
     /**
@@ -58,7 +66,9 @@ class ClaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $clase = $this->clase->getClase($id);
+        $tareas = $this->getTareas($clase);
+        return View::make('clase.show', ['tareas' => $tareas, 'clase' => $clase]);
     }
 
     /**
@@ -69,7 +79,8 @@ class ClaseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clase=$this->clase->getClase($id);
+        return View::make('clase.edit',['clase'=>$clase]);
     }
 
     /**
@@ -81,7 +92,8 @@ class ClaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $clase=$this->clase->update($request,$id);
+        return View::make('clase.edit',['clase'=>$clase]);
     }
 
     /**
@@ -92,6 +104,7 @@ class ClaseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->clase->destroy($id);
+        return redirect('clase.index');
     }
 }
