@@ -1,4 +1,4 @@
-include .env
+-include .env
 container=${APP_SLUG}_php-fpm
 
 up:
