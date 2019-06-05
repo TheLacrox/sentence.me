@@ -12,7 +12,7 @@ use App\Repositories\TareaRepositoryInterface;
 class ClaseController extends Controller
 {
 
-    public function __construct(ClaseRepositoryInterface $clase, UserRepositoryInterface $user,TareaRepositoryInterface $tarea)
+    public function __construct(ClaseRepositoryInterface $clase, UserRepositoryInterface $user, TareaRepositoryInterface $tarea)
     {
         $this->clase = $clase;
         $this->user = $user;
@@ -25,13 +25,9 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('Profesor')) {
-            $clases = $this->clase->getuserclases(Auth::user());
-            return View::make('clase.index')
-                ->with('clases', $clases);
-        } else {
-            return redirect('clase.index')->with('error', 'No Tienes permitido Crear una clase');
-        }
+        $clases = $this->clase->getuserclases(Auth::user());
+        return View::make('clase.index')
+            ->with('clases', $clases);
     }
 
     /**
@@ -44,7 +40,7 @@ class ClaseController extends Controller
         if (Auth::user()->hasRole('Profesor')) {
             return View::make('clase.create');
         } else {
-            return redirect('clase.index')->with('error', 'No Tienes permitido Crear una clase');
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una clase');
         }
     }
 
@@ -56,8 +52,12 @@ class ClaseController extends Controller
      */
     public function store(Request $request)
     {
-        $this->clase->create($request->toArray());
-        return redirect('clases.index');
+        if (Auth::user()->hasRole('Profesor')) {
+            $this->clase->create($request->toArray());
+            return redirect(route('clases.index'))->with('message', 'Clase Creada!');
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una clase');
+        }
     }
 
     /**
@@ -81,8 +81,12 @@ class ClaseController extends Controller
      */
     public function edit($id)
     {
-        $clase=$this->clase->getClase($id);
-        return View::make('clase.edit',['clase'=>$clase]);
+        if (Auth::user()->hasRole('Profesor')) {
+            $clase = $this->clase->getClase($id);
+            return View::make('clase.edit', ['clase' => $clase]);
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido editar una clase');
+        }
     }
 
     /**
@@ -94,8 +98,12 @@ class ClaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $clase=$this->clase->update($request,$id);
-        return View::make('clase.edit',['clase'=>$clase]);
+        if (Auth::user()->hasRole('Profesor')) {
+            $clase = $this->clase->update($request, $id);
+            return View::make('clase.edit', ['clase' => $clase]);
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
+        }
     }
 
     /**
@@ -106,7 +114,11 @@ class ClaseController extends Controller
      */
     public function destroy($id)
     {
-        $this->clase->destroy($id);
-        return redirect('clase.index');
+        if (Auth::user()->hasRole('Profesor')) {
+            $this->clase->destroy($id);
+            return redirect(route('clases.index'))->with('message', 'Clase Borrada');
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
+        }
     }
 }
