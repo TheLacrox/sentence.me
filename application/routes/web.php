@@ -23,8 +23,14 @@ Route::middleware('auth')->group(function () {
             Route::get('show/{id}', 'ClaseController@show')->name('show');
             Route::post('store', 'ClaseController@store')->name('store');
             Route::post('update', 'ClaseController@update')->name('update');
-        });
 
+                Route::prefix('{claseid}/tareas')->name('tareas.')->group(function (){
+                    Route::get('show/{id}', 'TareaController@show')->name('show');
+                    Route::get('create', 'TareaController@create')->name('create');
+                    Route::post('store', 'TareaController@store')->name('store');
+                    Route::post('update', 'TareaController@update')->name('update');
+                });
+        });
 });
 
 Auth::routes();

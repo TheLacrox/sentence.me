@@ -17,9 +17,14 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($claseid)
     {
-        //
+        dd($claseid);
+        if (Auth::user()->hasRole('Profesor')) {
+            return View::make('tarea.create',['claseid'=>$claseid]);
+        } else {
+            return redirect(route('clases.show',$claseid))->with('error', 'No Tienes permitido Crear una tarea');
+        }
     }
 
     /**
