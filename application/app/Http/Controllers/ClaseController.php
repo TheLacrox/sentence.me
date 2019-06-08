@@ -99,8 +99,8 @@ class ClaseController extends Controller
     public function update(Request $request, $id)
     {
         if (Auth::user()->hasRole('Profesor')) {
-            $clase = $this->clase->update($request, $id);
-            return View::make('clase.edit', ['clase' => $clase]);
+            $clase = $this->clase->update($request->toArray(), $id);
+            return redirect(route('clases.show',$id))->with('message', 'Clase Actualizada');
         } else {
             return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
         }

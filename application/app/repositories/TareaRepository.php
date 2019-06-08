@@ -45,8 +45,27 @@ class TareaRepository implements TareaRepositoryInterface
     public function getTarea($id){
        return $this->find($id);
     }
+    /**
+     * Recupera una tarea por el id
+     *
+     * @param Int $id
+     * @return Tarea $tarea
+     */
     public function find($id)
     {
         return Tarea::find($id);
+    }
+        /**
+     * Actualiza una tarea con los datos del request
+     *
+     * @param Array $formdata
+     * @param Int $tareaid
+     * @return Tarea $tareaactualizada
+     */
+    public function update($formdata,$tareaid){
+        $Clase = $this->find($tareaid);
+        $Clase->fill($formdata);
+        $Clase->save();
+        return $Clase;
     }
 }

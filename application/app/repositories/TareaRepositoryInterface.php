@@ -27,4 +27,12 @@ interface TareaRepositoryInterface
      * @return Tarea $tarea
      */
     public function getTarea($id);
+    /**
+     * Actualiza una tarea con los datos del request
+     *
+     * @param Request $formdata
+     * @param Int $tareaid
+     * @return Tarea $tareaactualizada
+     */
+    public function update($formdata,$tareaid);
 }

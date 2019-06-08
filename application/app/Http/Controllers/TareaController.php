@@ -53,7 +53,7 @@ class TareaController extends Controller
     public function show($claseid,$tareaid)
     {
         $tarea=$this->tarea->getTarea($tareaid);
-        return View::make('tarea.show',['tarea'=>$tarea]);
+        return View::make('tarea.show',['tarea'=>$tarea,'claseid'=>$claseid]);
     }
 
     /**
@@ -62,9 +62,14 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($claseid,$id)
     {
-        //
+        if (Auth::user()->hasRole('Profesor')) {
+            $tarea = $this->tarea->getTarea($id);
+            return View::make('tarea.edit', ['claseid' => $claseid,'tarea'=>$tarea]);
+        } else {
+            return redirect(route('clases.show',$claseid))->with('error', 'No Tienes permitido editar una Tarea');
+        }
     }
 
     /**
@@ -74,9 +79,14 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $claseid,$tareaid)
     {
-        //
+        if (Auth::user()->hasRole('Profesor')) {
+            $tarea = $this->tarea->update($request->toArray(), $tareaid);
+            return redirect(route('clases.tareas.show',[$claseid,$tareaid]))->with('message', 'Tarea Actualizada');
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una Tarea');
+        }
     }
 
     /**
