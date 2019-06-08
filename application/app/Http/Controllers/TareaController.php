@@ -19,7 +19,6 @@ class TareaController extends Controller
      */
     public function create($claseid)
     {
-        dd($claseid);
         if (Auth::user()->hasRole('Profesor')) {
             return View::make('tarea.create',['claseid'=>$claseid]);
         } else {

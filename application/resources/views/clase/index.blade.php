@@ -3,7 +3,7 @@
 @section('content')
 @if (count($clases)>0)
 @foreach ($clases as $clase)
-<div>{{{$clase->nombre}}}</div>
+<a href="{{route('clases.show',$clase->id)}}">{{{$clase->nombre}}}</a><br>
 @endforeach
 @else
 <div>No tienes clases</div>
