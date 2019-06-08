@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\TareaRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class TareaController extends Controller
 {
@@ -32,9 +34,14 @@ class TareaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$claseid)
     {
-        //
+        if (Auth::user()->hasRole('Profesor')) {
+            $this->tarea->create($request->toArray(),$claseid);
+            return redirect(route('clases.show',$claseid))->with('message', 'Tarea Creada!');
+        } else {
+            return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una Tarea');
+        }
     }
 
     /**
@@ -43,9 +50,10 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($claseid,$tareaid)
     {
-        //
+        $tarea=$this->tarea->getTarea($tareaid);
+        return View::make('tarea.show',['tarea'=>$tarea]);
     }
 
     /**
