@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
                     Route::post('store', 'TareaController@store')->name('store');
                     Route::get('edit/{id}', 'TareaController@edit')->name('edit');
                     Route::post('update/{id}', 'TareaController@update')->name('update');
+
+                        Route::prefix('{tareaid}/respuestas')->name('respuestas.')->group(function (){
+                            Route::post('store', 'RespuestaController@store')->name('store');
+                            Route::get('edit/{id?}', 'RespuestaController@edit')->name('edit');
+                        });
                 });
         });
 });
