@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use App\Respuesta;
-use App\Tarea;
+use App\Repositories\TareaRepositoryInterface;
+use App\Repositories\RespuestaRepositoryInterface;
 
 class RespuestaController extends Controller
 {
+    public function __construct(TareaRepositoryInterface $tarea,RespuestaRepositoryInterface $respuesta)
+    {
+        $this->tarea = $tarea;
+        $this->respuesta = $respuesta;
+    }
     public function edit($claseid,$tareaid,$respuestaid=null)
     {
         if (!Auth::user()->hasRole('Profesor')) {
@@ -18,20 +23,18 @@ class RespuestaController extends Controller
             return redirect(route('clases.show',$claseid))->with('error', 'No Tienes permitido editar una Tarea');
         }
     }
-    public function store(Request $request,$claseid,$tareaid)
-    {
+    public function store(Request $request,$claseid,$tareaid,$id=null)
+    {   
         if (Auth::user()->hasRole('Alumno')) {
-            $tarea=Tarea::find($tareaid);
-            $respuesta= new Respuesta;
-            $respuesta->user()->associate(Auth::user());
-            $respuesta->tarea()->associate($tarea)->save();
-            $respuesta->addMediaFromRequest('respuesta')->toMediaCollection();
-            dd($respuesta->getFirstMedia()->getPath());
-
-        } else {
-            dd('facha');
+            if($id===null){
+                $tarea=$this->tarea->getTarea($tareaid);
+                $respuesta=$this->respuesta->saveRespuesta($tarea);
+                $respuesta=$this->respuesta->associateFile($request,$respuesta);
+                $this->respuesta->comprobar($respuesta);
+            }else{
+                $respuesta=$this->respuesta->getRespuesta($id);
+            }
         }
-
     }
 
 }

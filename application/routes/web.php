@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
                     Route::post('update/{id}', 'TareaController@update')->name('update');
 
                         Route::prefix('{tareaid}/respuestas')->name('respuestas.')->group(function (){
-                            Route::post('store', 'RespuestaController@store')->name('store');
+                            Route::post('store/{id?}', 'RespuestaController@store')->name('store');
                             Route::get('edit/{id?}', 'RespuestaController@edit')->name('edit');
                         });
                 });
