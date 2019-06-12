@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRespuestasKeys extends Migration
+class CreateArgumentosKeys extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateRespuestasKeys extends Migration
      */
     public function up()
     {
-        Schema::table('respuestas', function (Blueprint $table) {
+        Schema::table('argumentos', function (Blueprint $table) {
             $table->foreign('tarea_id')->references('id')->on('tareas');
-            $table->foreign('user_id')->references('id')->on('tareas');
         });
     }
 
@@ -26,9 +25,8 @@ class CreateRespuestasKeys extends Migration
      */
     public function down()
     {
-        Schema::table('respuestas', function (Blueprint $table) {
+        Schema::table('argumentos', function (Blueprint $table) {
             $table->dropForeign(['tarea_id']);
-            $table->dropForeign(['user_id']);
         });
     }
 }
