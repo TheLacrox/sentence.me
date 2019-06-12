@@ -35,4 +35,6 @@ interface TareaRepositoryInterface
      * @return Tarea $tareaactualizada
      */
     public function update($formdata,$tareaid);
+
+    public function getRespuestas($tareaid);
 }

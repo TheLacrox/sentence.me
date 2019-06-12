@@ -106,4 +106,8 @@ class TareaRepository implements TareaRepositoryInterface
             }
         }
     }
+    public function getRespuestas($tareaid){
+       $tarea=$this->find($tareaid);
+       return $tarea->respuestas()->get();
+    }
 }

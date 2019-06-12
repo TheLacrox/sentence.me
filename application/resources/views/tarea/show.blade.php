@@ -4,14 +4,14 @@
 <div class="container-fluid">
     <div class="row">
         @hasrole('Profesor')
-        <div class="col-6">
+        <div class="col-4">
             <a href="{{route('clases.tareas.edit',[$claseid,$tarea->id])}}" class="btn btn-primary btn-lg w-100" role="button" aria-disabled="true">Editar Tarea</a>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <a href="{{route('clases.tareas.delete',[$claseid,$tarea->id])}}" class="btn btn-primary btn-lg w-100" role="button" aria-disabled="true">Borrar Tarea</a>
         </div>
-        <div class="col-12 text-center">
-            <h1>Clave: <span class="badge badge-secondary ">{{$clase->clave}}</span></h1>
+        <div class="col-4">
+            <a href="{{route('clases.tareas.respuestas.ver',[$claseid,$tarea->id])}}" class="btn btn-primary btn-lg w-100" role="button" aria-disabled="true">Ver Respuestas de Tarea</a>
         </div>
         @endhasrole
         <div class="col-12 mt-3">

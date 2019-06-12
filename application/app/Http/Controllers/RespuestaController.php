@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Repositories\TareaRepositoryInterface;
 use App\Repositories\RespuestaRepositoryInterface;
+use Spatie\MediaLibrary\Models\Media;
 
 class RespuestaController extends Controller
 {
@@ -42,6 +43,21 @@ class RespuestaController extends Controller
                 $request->session()->flash('message',  'Respuesta Actualizada');
                 return redirect(route('clases.tareas.show',[$claseid,$tareaid]));
             }
+        }
+    }
+    public function ver($claseid,$tareaid)
+    {
+        if (Auth::user()->hasRole('Profesor')) {
+            $respuestas=$this->tarea->getRespuestas($tareaid);
+            return View::make('respuesta.ver',['respuestas'=>$respuestas,'claseid'=>$claseid,'tareaid'=>$tareaid]);
+        }
+    }
+    public function download($claseid,$tareaid,$respuestaid)
+    {   
+        if (Auth::user()->hasRole('Profesor')) {
+        $respuesta=$this->respuesta->getRespuesta($respuestaid);
+        $media=$respuesta->getFirstMedia();
+        return $media;
         }
     }
 }
