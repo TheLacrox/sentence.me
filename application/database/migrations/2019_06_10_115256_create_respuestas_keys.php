@@ -15,7 +15,7 @@ class CreateRespuestasKeys extends Migration
     {
         Schema::table('respuestas', function (Blueprint $table) {
             $table->foreign('tarea_id')->references('id')->on('tareas');
-            $table->foreign('user_id')->references('id')->on('tareas');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -41,6 +41,10 @@ class RespuestaRepository implements RespuestaRepositoryInterface
      * @param Respuesta $respuesta
      * @return void
      */
+    public function compilar()
+    {
+        
+    }
     public function comprobar($respuesta)
     {
         $fichero = $respuesta->getFirstMedia();
