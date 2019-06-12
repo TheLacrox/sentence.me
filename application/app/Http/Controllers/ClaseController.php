@@ -54,12 +54,37 @@ class ClaseController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $this->clase->create($request->toArray());
-            return redirect(route('clases.index'))->with('message', 'Clase Creada!');
+            $request->session()->flash('message',  'Clase Creada!');
+            return redirect(route('clases.index'));
         } else {
-            return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una clase');
+            $request->session()->flash('message',  'No Tienes permitido Crear una clase');
+            return redirect(route('clases.index'));
         }
     }
-
+    public function getin()
+    {
+        return View::make('clase.join');
+    }
+    public function join(Request $request)
+    {
+        if (Auth::user()->hasRole('Alumno')) {
+            if (count(Auth::user()->clases()->where('clave', $request->clave)->get()) < 1) {
+                if ($this->clase->join($request)) {
+                    $request->session()->flash('message', 'Te has unido A la clase :)');
+                    return redirect(route('clases.index'));
+                } else {
+                    $request->session()->flash('message', 'No se ha encontrado la clase.');
+                    return redirect(route('clases.getin'));
+                }
+            } else {
+                $request->session()->flash('message', 'Ya perteneces a esa clase.');
+                return redirect(route('clases.index'));
+            }
+        } else {
+            $request->session()->flash('message', 'Solo alumnos pueden unirse');
+            return redirect(route('clases.index'));
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -100,7 +125,7 @@ class ClaseController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $clase = $this->clase->update($request->toArray(), $id);
-            return redirect(route('clases.show',$id))->with('message', 'Clase Actualizada');
+            return redirect(route('clases.show', $id))->with('message', 'Clase Actualizada');
         } else {
             return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
         }
@@ -112,7 +137,7 @@ class ClaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         if (Auth::user()->hasRole('Profesor')) {
             $this->clase->destroy($id);

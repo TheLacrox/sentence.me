@@ -12,4 +12,16 @@ class Tarea extends Model
     {
         return $this->belongsTo('App\Clase');
     }
+    public function respuestas()
+    {
+        return $this->hasMany('App\Respuesta');
+    }
+    public function argumentos()
+    {
+        return $this->hasMany('App\Argumento');
+    }
+    public function solucion()
+    {
+        return $this->hasOne('App\Solucion');
+    }
 }
