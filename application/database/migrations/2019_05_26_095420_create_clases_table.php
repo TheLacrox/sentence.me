@@ -17,7 +17,7 @@ class CreateClasesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('nombre');
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
             $table->timestamps();
         });
     }
