@@ -34,7 +34,7 @@ class RespuestaController extends Controller
             }else{
                 $respuesta=$this->respuesta->getRespuesta($id);
                 if($request->hasFile('respuesta') && $respuesta){
-                    $this->respuesta->borrarRespuesta($respuesta);
+                    $respuesta=$this->respuesta->borrarRespuesta($respuesta);
                     $respuesta=$this->respuesta->associateFile($request,$respuesta);
                     $this->respuesta->comprobar($respuesta);
                 }
