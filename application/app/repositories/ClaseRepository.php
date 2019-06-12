@@ -20,10 +20,10 @@ class ClaseRepository implements ClaseRepositoryInterface
      **/
     public function getuserclases($user)
     {
-        if($user->hasRole('Profesor')){
-            $clases=$user->clasesProfesor()->get();
-        }else{
-            $clases=$user->clases()->get();
+        if ($user->hasRole('Profesor')) {
+            $clases = $user->clasesProfesor()->get();
+        } else {
+            $clases = $user->clases()->get();
         };
         return $clases;
     }
@@ -38,10 +38,20 @@ class ClaseRepository implements ClaseRepositoryInterface
     {
         $clase = new Clase;
         $clase->fill($clasedata);
+        $clase->clave = str_random('16');
         $clase->user()->associate(Auth::user())->save();
         return $clase;
     }
-
+    public function join($request)
+    {
+        $clase = Clase::all()->where('clave', '=', $request->clave)->first();
+        if ($clase) {
+            $clase->Users()->attach(Auth::id());
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * Find the specific Clase
      *
@@ -80,7 +90,8 @@ class ClaseRepository implements ClaseRepositoryInterface
         $Clase->delete();
         return true;
     }
-    public function getClase($id){
+    public function getClase($id)
+    {
         return $this->find($id);
     }
 }

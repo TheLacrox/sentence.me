@@ -11,4 +11,5 @@ interface ClaseRepositoryInterface
     public function getClase($id);
     public function update($formdata, $id);
     public function destroy($id);
+    public function join($request);
 }

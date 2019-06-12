@@ -21,9 +21,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'ClaseController@index')->name('index');
             Route::get('show/{id}', 'ClaseController@show')->name('show');
             Route::get('create', 'ClaseController@create')->name('create');
+            Route::get('getin', 'ClaseController@getin')->name('getin');
+            Route::post('join', 'ClaseController@join')->name('join');
             Route::post('store', 'ClaseController@store')->name('store');
             Route::get('edit/{id}', 'ClaseController@edit')->name('edit');
             Route::post('update/{id}', 'ClaseController@update')->name('update');
+
 
                 Route::prefix('{claseid}/tareas')->name('tareas.')->group(function (){
                     Route::get('show/{id}', 'TareaController@show')->name('show');

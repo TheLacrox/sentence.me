@@ -59,7 +59,22 @@ class ClaseController extends Controller
             return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una clase');
         }
     }
-
+    public function getin()
+    {
+        return View::make('clase.join');
+    }
+    public function join(Request $request)
+    {
+        if (Auth::user()->hasRole('Alumno')) {
+            if ($this->clase->join($request)) {
+                return redirect(route('clases.index'))->with('message', 'Te has unido A la clase :)');
+            } else {
+                return redirect(route('clases.getin'))->with('message', 'No se ha encontrado la clase');
+            }
+        } else {
+            return redirect(route('clases.index'))->with('message', 'Solo alumnos pueden unirse');
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -100,7 +115,7 @@ class ClaseController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $clase = $this->clase->update($request->toArray(), $id);
-            return redirect(route('clases.show',$id))->with('message', 'Clase Actualizada');
+            return redirect(route('clases.show', $id))->with('message', 'Clase Actualizada');
         } else {
             return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
         }
