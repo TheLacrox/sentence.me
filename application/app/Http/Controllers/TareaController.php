@@ -66,7 +66,13 @@ class TareaController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $tarea = $this->tarea->getTarea($id);
-            return View::make('tarea.edit', ['claseid' => $claseid,'tarea'=>$tarea]);
+            $solucion=$tarea->solucion()->first()->solucion;
+            $argumentos=[];
+            foreach($tarea->argumentos()->get() as $argumento){
+                array_push($argumentos,$argumento->argumento);
+            }
+            $argumentos=implode(',',$argumentos);
+            return View::make('tarea.edit', ['claseid' => $claseid,'tarea'=>$tarea,'solucion'=>$solucion,'argumentos'=>$argumentos]);
         } else {
             return redirect(route('clases.show',$claseid))->with('error', 'No Tienes permitido editar una Tarea');
         }

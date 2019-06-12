@@ -27,6 +27,20 @@
                                 </textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="argumentos" class="col-md-4 col-form-label text-md-right">Argumentos separados por comas</label>
+
+                            <div class="col-md-6">
+                                <input id="argumentos" type="text" class="form-control" name="argumentos" value="{{ $argumentos }}" placeholder="1,2,3" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="solucion" class="col-md-4 col-form-label text-md-right">solucion</label>
+
+                            <div class="col-md-6">
+                                <input id="solucion" type="text" class="form-control" name="solucion" value="{{$solucion }}" required  autofocus>
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
