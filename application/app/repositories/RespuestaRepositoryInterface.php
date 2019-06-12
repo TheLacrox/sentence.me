@@ -28,4 +28,13 @@ interface RespuestaRepositoryInterface
      * @return void
      */
     public function comprobar($respuesta);
+    /**
+     * Devuelve La respuesta
+     *
+     * @param Int $id
+     * @return Respuesta $respuesta
+     */
+    public function getRespuesta($id);
+    
+    public function borrarRespuesta($respuesta);
 }
