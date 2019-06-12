@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
             Route::post('store', 'ClaseController@store')->name('store');
             Route::get('edit/{id}', 'ClaseController@edit')->name('edit');
             Route::post('update/{id}', 'ClaseController@update')->name('update');
+            Route::get('delete/{id}', 'ClaseController@delete')->name('delete');
 
 
                 Route::prefix('{claseid}/tareas')->name('tareas.')->group(function (){
@@ -34,7 +35,7 @@ Route::middleware('auth')->group(function () {
                     Route::post('store', 'TareaController@store')->name('store');
                     Route::get('edit/{id}', 'TareaController@edit')->name('edit');
                     Route::post('update/{id}', 'TareaController@update')->name('update');
-
+                    Route::get('delete/{id}', 'TareaController@delete')->name('delete');
                         Route::prefix('{tareaid}/respuestas')->name('respuestas.')->group(function (){
                             Route::post('store/{id?}', 'RespuestaController@store')->name('store');
                             Route::get('edit/{id?}', 'RespuestaController@edit')->name('edit');

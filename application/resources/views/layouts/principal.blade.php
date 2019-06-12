@@ -21,11 +21,7 @@
 </head>
 <body>
     <div id="app">
-        @isset($message)
-            <div class="alert alert-info">
-            {{{$message}}}
-            </div>
-        @endif
+
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -33,7 +29,7 @@
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Mis Clases</a>
+                        <a class="nav-link" href="{{route('clases.index')}}">Mis Clases</a>
                     </li>
                 </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -84,7 +80,12 @@
                 </div>
             </div>
         </nav>
-
+        @if($message=Session::get('message'))
+            <div class="alert alert-info alert-block">
+	            <button type="button" class="close" data-dismiss="alert">×</button>	
+	            <strong>{{ $message }}</strong>
+            </div>
+        @endif
         <main class="py-4">
             @yield('content')
         </main>

@@ -54,9 +54,11 @@ class ClaseController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $this->clase->create($request->toArray());
-            return redirect(route('clases.index'))->with('message', 'Clase Creada!');
+            $request->session()->flash('message',  'Clase Creada!');
+            return redirect(route('clases.index'));
         } else {
-            return redirect(route('clases.index'))->with('error', 'No Tienes permitido Crear una clase');
+            $request->session()->flash('message',  'No Tienes permitido Crear una clase');
+            return redirect(route('clases.index'));
         }
     }
     public function getin()
@@ -66,13 +68,22 @@ class ClaseController extends Controller
     public function join(Request $request)
     {
         if (Auth::user()->hasRole('Alumno')) {
-            if ($this->clase->join($request)) {
-                return redirect(route('clases.index'))->with('message', 'Te has unido A la clase :)');
-            } else {
-                return redirect(route('clases.getin'))->with('message', 'No se ha encontrado la clase');
+            if(count(Auth::user()->clases()->where('clave',$request->clave)->get())<1){
+                if ($this->clase->join($request)) {
+                    $request->session()->flash('message', 'Te has unido A la clase :)');
+                    return redirect(route('clases.index'));
+                    
+                } else {
+                    $request->session()->flash('message', 'No se ha encontrado la clase.');
+                    return redirect(route('clases.getin'));
+                }
+            }else{
+                $request->session()->flash('message', 'Ya perteneces a esa clase.');
+                    return redirect(route('clases.index'));
             }
         } else {
-            return redirect(route('clases.index'))->with('message', 'Solo alumnos pueden unirse');
+            $request->session()->flash('message', 'Solo alumnos pueden unirse');
+            return redirect(route('clases.index'));
         }
     }
     /**
