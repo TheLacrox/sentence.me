@@ -26,18 +26,19 @@ class RespuestaController extends Controller
     public function store(Request $request,$claseid,$tareaid,$id=null)
     {   
         if (Auth::user()->hasRole('Alumno')) {
+            $tarea=$this->tarea->getTarea($tareaid);
             if($id===null){
-                $tarea=$this->tarea->getTarea($tareaid);
+
                 $respuesta=$this->respuesta->saveRespuesta($tarea);
                 $respuesta=$this->respuesta->associateFile($request,$respuesta);
                 $this->respuesta->comprobar($respuesta);
             }else{
                 $respuesta=$this->respuesta->getRespuesta($id);
-                if($request->hasFile('respuesta') && $respuesta){
-                    $respuesta=$this->respuesta->borrarRespuesta($respuesta);
-                    $respuesta=$this->respuesta->associateFile($request,$respuesta);
-                    $this->respuesta->comprobar($respuesta);
-                }
+                $respuesta=$this->respuesta->borrarRespuesta($respuesta);
+                $respuesta=$this->respuesta->saveRespuesta($tarea);
+                $respuesta=$this->respuesta->associateFile($request,$respuesta);
+                $this->respuesta->comprobar($respuesta);
+                
             }
         }
     }

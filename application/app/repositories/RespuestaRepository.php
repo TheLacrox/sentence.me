@@ -4,7 +4,8 @@ namespace App\Repositories;
 
 use App\Respuesta;
 use Illuminate\Support\Facades\Auth;
-
+use App\Jobs\CheckRespuesta;
+use Illuminate\Support\Carbon;
 
 class RespuestaRepository implements RespuestaRepositoryInterface
 {
@@ -45,20 +46,12 @@ class RespuestaRepository implements RespuestaRepositoryInterface
         $fichero = $respuesta->getFirstMedia();
         $ubicacion = str_replace($fichero->file_name, '', $fichero->getPath());
         $nombre = $fichero->name;
-        $argumentos="2 4";
-      //  foreach($respuesta->tarea()->first()->argumentos()->get() as $argumento){
-      //      $argumentos.=$argumento->argumento." ";
-      //  }
-        //$solucion = $respuesta->tarea()->first()->solucion()->first()->solucion;
-        $solucion="6";
-        $resultado = shell_exec('java -cp ' . $ubicacion . ' ' . $nombre . ' ' . $argumentos." ");
-        if ($resultado === $solucion) {
-            $respuesta->aprobado = 1;
-            $respuesta->save();
-        }else{
-            $respuesta->aprobado = 0;
-            $respuesta->save();
+        $argumentos="";
+        foreach($respuesta->tarea()->first()->argumentos()->get() as $argumento){
+            $argumentos.=$argumento->argumento." ";
         }
+        $solucion = $respuesta->tarea()->first()->solucion()->first()->solucion;
+        CheckRespuesta::dispatch($ubicacion,$nombre,$argumentos,$solucion,$respuesta);
     }
     /**
      * Devuelve La respuesta
@@ -81,7 +74,6 @@ class RespuestaRepository implements RespuestaRepositoryInterface
     }
     public function borrarRespuesta($respuesta){
         $respuesta->getFirstMedia()->delete();
-        $respuesta->save();
-        return $respuesta;
+        $respuesta->forceDelete();
     }
 }
