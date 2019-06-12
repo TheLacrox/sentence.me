@@ -17,14 +17,14 @@ class CheckRespuesta implements ShouldQueue
      *
      * @return void
      */
-    protected $ubicacion,$nombre,$argumentos,$solucion,$respuesta;
-    public function __construct($ubicacion,$nombre,$argumentos,$solucion,$respuesta)
+    protected $ubicacion, $nombre, $argumentos, $solucion, $respuesta;
+    public function __construct($ubicacion, $nombre, $argumentos, $solucion, $respuesta)
     {
-        $this->ubicacion=$ubicacion;
-        $this->nombre=$nombre;
-        $this->argumentos=$argumentos;
-        $this->solucion=$solucion;
-        $this->respuesta=$respuesta;
+        $this->ubicacion = $ubicacion;
+        $this->nombre = $nombre;
+        $this->argumentos = $argumentos;
+        $this->solucion = $solucion;
+        $this->respuesta = $respuesta;
     }
 
     /**
@@ -34,14 +34,13 @@ class CheckRespuesta implements ShouldQueue
      */
     public function handle()
     {
-        $resultado = shell_exec('java -cp ' . $this->ubicacion . ' ' . $this->nombre . ' ' . $this->argumentos." ");
+        $resultado = shell_exec('java -cp ' . $this->ubicacion . ' ' . $this->nombre . ' ' . $this->argumentos . " ");
         if ($resultado === $this->solucion) {
             $this->respuesta->aprobado = 1;
             $this->respuesta->save();
-        }else{
+        } else {
             $this->respuesta->aprobado = 0;
             $this->respuesta->save();
         }
-        
     }
 }

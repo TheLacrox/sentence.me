@@ -68,18 +68,17 @@ class ClaseController extends Controller
     public function join(Request $request)
     {
         if (Auth::user()->hasRole('Alumno')) {
-            if(count(Auth::user()->clases()->where('clave',$request->clave)->get())<1){
+            if (count(Auth::user()->clases()->where('clave', $request->clave)->get()) < 1) {
                 if ($this->clase->join($request)) {
                     $request->session()->flash('message', 'Te has unido A la clase :)');
                     return redirect(route('clases.index'));
-                    
                 } else {
                     $request->session()->flash('message', 'No se ha encontrado la clase.');
                     return redirect(route('clases.getin'));
                 }
-            }else{
+            } else {
                 $request->session()->flash('message', 'Ya perteneces a esa clase.');
-                    return redirect(route('clases.index'));
+                return redirect(route('clases.index'));
             }
         } else {
             $request->session()->flash('message', 'Solo alumnos pueden unirse');
@@ -138,7 +137,7 @@ class ClaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         if (Auth::user()->hasRole('Profesor')) {
             $this->clase->destroy($id);

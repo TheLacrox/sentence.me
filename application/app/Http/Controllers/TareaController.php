@@ -53,7 +53,12 @@ class TareaController extends Controller
     public function show($claseid,$tareaid)
     {
         $tarea=$this->tarea->getTarea($tareaid);
-        return View::make('tarea.show',['tarea'=>$tarea,'claseid'=>$claseid]);
+        $respuesta=$tarea->respuestas()->where('user_id',Auth::id())->first();
+        $filename="";
+        if($respuesta){
+            $filename=$respuesta->getFirstMedia()->name;
+        }
+        return View::make('tarea.show',['tarea'=>$tarea,'claseid'=>$claseid,'filename'=>$filename,'respuesta'=>$respuesta]);
     }
 
     /**

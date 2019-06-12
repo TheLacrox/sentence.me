@@ -31,12 +31,16 @@ class RespuestaController extends Controller
                 $respuesta = $this->respuesta->saveRespuesta($tarea);
                 $respuesta = $this->respuesta->associateFile($request, $respuesta);
                 $this->respuesta->comprobar($respuesta);
+                $request->session()->flash('message',  'Respuesta Subida');
+                return redirect(route('clases.tareas.show',[$claseid,$tareaid]));
             } else {
                 $respuesta = $this->respuesta->getRespuesta($id);
                 $respuesta = $this->respuesta->borrarRespuesta($respuesta);
                 $respuesta = $this->respuesta->saveRespuesta($tarea);
                 $respuesta = $this->respuesta->associateFile($request, $respuesta);
                 $this->respuesta->comprobar($respuesta);
+                $request->session()->flash('message',  'Respuesta Actualizada');
+                return redirect(route('clases.tareas.show',[$claseid,$tareaid]));
             }
         }
     }
