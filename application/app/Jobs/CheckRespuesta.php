@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CheckRespuesta implements ShouldQueue
 {
@@ -17,7 +17,12 @@ class CheckRespuesta implements ShouldQueue
      *
      * @return void
      */
-    protected $ubicacion, $nombre, $argumentos, $solucion, $respuesta;
+    protected $ubicacion;
+    protected $nombre;
+    protected $argumentos;
+    protected $solucion;
+    protected $respuesta;
+
     public function __construct($ubicacion, $nombre, $argumentos, $solucion, $respuesta)
     {
         $this->ubicacion = $ubicacion;
@@ -34,7 +39,7 @@ class CheckRespuesta implements ShouldQueue
      */
     public function handle()
     {
-        $resultado = shell_exec('java -cp ' . $this->ubicacion . ' ' . $this->nombre . ' ' . $this->argumentos . " ");
+        $resultado = shell_exec('java -cp '.$this->ubicacion.' '.$this->nombre.' '.$this->argumentos.' ');
         if ($resultado === $this->solucion) {
             $this->respuesta->aprobado = 1;
             $this->respuesta->save();

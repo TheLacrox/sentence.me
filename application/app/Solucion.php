@@ -8,6 +8,7 @@ class Solucion extends Model
 {
     protected $fillable = ['solucion'];
     protected $table = 'soluciones';
+
     public function tarea()
     {
         return $this->belongsTo('App\Tarea');
