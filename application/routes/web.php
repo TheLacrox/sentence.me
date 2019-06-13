@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
                 Route::post('store/{id?}', 'RespuestaController@store')->name('store');
                 Route::get('edit/{id?}', 'RespuestaController@edit')->name('edit');
                 Route::get('download/{id}', 'RespuestaController@download')->name('download');
-                
             });
         });
     });

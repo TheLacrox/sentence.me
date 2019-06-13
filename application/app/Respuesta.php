@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Respuesta extends Model implements HasMedia
 {
-    protected $fillable=['aprobado'];
+    protected $fillable = ['aprobado'];
 
     use HasMediaTrait;
 
@@ -16,6 +16,7 @@ class Respuesta extends Model implements HasMedia
     {
         return $this->belongsTo('App\Tarea');
     }
+
     public function user()
     {
         return $this->belongsTo('App\User');

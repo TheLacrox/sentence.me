@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\RespuestaRepositoryInterface;
+use App\Repositories\TareaRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use App\Repositories\TareaRepositoryInterface;
-use App\Repositories\RespuestaRepositoryInterface;
-use Spatie\MediaLibrary\Models\Media;
 
 class RespuestaController extends Controller
 {
@@ -16,6 +15,7 @@ class RespuestaController extends Controller
         $this->tarea = $tarea;
         $this->respuesta = $respuesta;
     }
+
     public function edit($claseid, $tareaid, $respuestaid = null)
     {
         if (!Auth::user()->hasRole('Profesor')) {
@@ -24,6 +24,7 @@ class RespuestaController extends Controller
             return redirect(route('clases.show', $claseid))->with('error', 'No Tienes permitido editar una Tarea');
         }
     }
+
     public function store(Request $request, $claseid, $tareaid, $id = null)
     {
         if (Auth::user()->hasRole('Alumno')) {
@@ -32,32 +33,38 @@ class RespuestaController extends Controller
                 $respuesta = $this->respuesta->saveRespuesta($tarea);
                 $respuesta = $this->respuesta->associateFile($request, $respuesta);
                 $this->respuesta->comprobar($respuesta);
-                $request->session()->flash('message',  'Respuesta Subida');
-                return redirect(route('clases.tareas.show',[$claseid,$tareaid]));
+                $request->session()->flash('message', 'Respuesta Subida');
+
+                return redirect(route('clases.tareas.show', [$claseid, $tareaid]));
             } else {
                 $respuesta = $this->respuesta->getRespuesta($id);
                 $respuesta = $this->respuesta->borrarRespuesta($respuesta);
                 $respuesta = $this->respuesta->saveRespuesta($tarea);
                 $respuesta = $this->respuesta->associateFile($request, $respuesta);
                 $this->respuesta->comprobar($respuesta);
-                $request->session()->flash('message',  'Respuesta Actualizada');
-                return redirect(route('clases.tareas.show',[$claseid,$tareaid]));
+                $request->session()->flash('message', 'Respuesta Actualizada');
+
+                return redirect(route('clases.tareas.show', [$claseid, $tareaid]));
             }
         }
     }
-    public function ver($claseid,$tareaid)
+
+    public function ver($claseid, $tareaid)
     {
         if (Auth::user()->hasRole('Profesor')) {
-            $respuestas=$this->tarea->getRespuestas($tareaid);
-            return View::make('respuesta.ver',['respuestas'=>$respuestas,'claseid'=>$claseid,'tareaid'=>$tareaid]);
+            $respuestas = $this->tarea->getRespuestas($tareaid);
+
+            return View::make('respuesta.ver', ['respuestas'=>$respuestas, 'claseid'=>$claseid, 'tareaid'=>$tareaid]);
         }
     }
-    public function download($claseid,$tareaid,$respuestaid)
-    {   
+
+    public function download($claseid, $tareaid, $respuestaid)
+    {
         if (Auth::user()->hasRole('Profesor')) {
-        $respuesta=$this->respuesta->getRespuesta($respuestaid);
-        $media=$respuesta->getFirstMedia();
-        return $media;
+            $respuesta = $this->respuesta->getRespuesta($respuestaid);
+            $media = $respuesta->getFirstMedia();
+
+            return $media;
         }
     }
 }
