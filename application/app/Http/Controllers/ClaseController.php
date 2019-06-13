@@ -125,9 +125,11 @@ class ClaseController extends Controller
     {
         if (Auth::user()->hasRole('Profesor')) {
             $clase = $this->clase->update($request->toArray(), $id);
-            return redirect(route('clases.show', $id))->with('message', 'Clase Actualizada');
+            $request->session()->flash('message',  'Clase Actualizada');
+            return redirect(route('clases.show', $id));
         } else {
-            return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
+            $request->session()->flash('message',   'No Tienes permitido actualizar una clase');
+            return redirect(route('clases.index'));
         }
     }
 
@@ -137,13 +139,15 @@ class ClaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function delete($id,Request $request)
     {
         if (Auth::user()->hasRole('Profesor')) {
             $this->clase->destroy($id);
-            return redirect(route('clases.index'))->with('message', 'Clase Borrada');
+            $request->session()->flash('message',   'Clase Borrada');
+            return redirect(route('clases.index'));
         } else {
-            return redirect(route('clases.index'))->with('error', 'No Tienes permitido actualizar una clase');
+            $request->session()->flash('message',   'No Tienes permitido Borrar una clase');
+            return redirect(route('clases.index'));
         }
     }
 }

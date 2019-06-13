@@ -14,7 +14,7 @@ class CreateTareasKeys extends Migration
     public function up()
     {
         Schema::table('tareas', function (Blueprint $table) {
-            $table->foreign('clase_id')->references('id')->on('clases');
+            $table->foreign('clase_id')->references('id')->on('clases')->onDelete('cascade');
         });
     }
 

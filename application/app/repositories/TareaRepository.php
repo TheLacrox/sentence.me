@@ -110,4 +110,8 @@ class TareaRepository implements TareaRepositoryInterface
        $tarea=$this->find($tareaid);
        return $tarea->respuestas()->get();
     }
+    public function destroy($tareaid){
+        $tarea=$this->find($tareaid);
+        $tarea->delete();
+    }
 }

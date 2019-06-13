@@ -12,6 +12,7 @@ class ClaseRepository implements ClaseRepositoryInterface
     public function __construct(UserRepositoryInterface $user)
     {
         $this->user = $user;
+
     }
     /**
      * Return all the Clases

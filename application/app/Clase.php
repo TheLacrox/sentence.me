@@ -20,4 +20,12 @@ class Clase extends Model
     {
         return $this->hasMany('App\Tarea');
     }
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($clase) { 
+             $clase->Users()->detach();
+             $clase->tareas()->delete();
+        });
+    }
 }

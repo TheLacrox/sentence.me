@@ -24,4 +24,14 @@ class Tarea extends Model
     {
         return $this->hasOne('App\Solucion');
     }
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($tarea) {
+            $tarea->argumentos()->delete();
+            $tarea->respuestas()->delete();
+            $tarea->solucion()->delete();
+        });
+    }
 }

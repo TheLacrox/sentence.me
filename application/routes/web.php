@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
             Route::post('store', 'TareaController@store')->name('store');
             Route::get('edit/{id}', 'TareaController@edit')->name('edit');
             Route::post('update/{id}', 'TareaController@update')->name('update');
-            Route::get('delete/{id}', 'TareaController@delete')->name('delete');
+            Route::get('delete/{id}', 'TareaController@destroy')->name('delete');
 
             Route::prefix('{tareaid}/respuestas')->name('respuestas.')->group(function () {
                 Route::get('ver', 'RespuestaController@ver')->name('ver');

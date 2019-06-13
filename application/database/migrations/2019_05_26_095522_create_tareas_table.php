@@ -18,6 +18,8 @@ class CreateTareasTable extends Migration
             $table->unsignedBigInteger('clase_id');
             $table->string('nombre');
             $table->longText('descripcion');
+            $table->boolean('abierta')->default(1);
+            $table->timestamp('fin')->nullable();
             $table->timestamps();
         });
     }
