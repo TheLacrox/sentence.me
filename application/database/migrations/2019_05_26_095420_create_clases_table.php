@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateClasesTable extends Migration
 {
@@ -17,7 +17,7 @@ class CreateClasesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('nombre');
-            $table->string('clave',16)->unique();
+            $table->string('clave', 16)->unique();
             $table->longText('descripcion')->nullable();
             $table->timestamps();
         });

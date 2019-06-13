@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Clase;
-use App\Repositories\ClaseRepositoryInterface;
-use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class ClaseRepository implements ClaseRepositoryInterface
@@ -12,10 +10,10 @@ class ClaseRepository implements ClaseRepositoryInterface
     public function __construct(UserRepositoryInterface $user)
     {
         $this->user = $user;
-
     }
+
     /**
-     * Return all the Clases
+     * Return all the Clases.
      *
      * @return Clase list
      **/
@@ -25,39 +23,46 @@ class ClaseRepository implements ClaseRepositoryInterface
             $clases = $user->clasesProfesor()->get();
         } else {
             $clases = $user->clases()->get();
-        };
+        }
+
         return $clases;
     }
 
     /**
      * Store a newly created Clase in storage.
      *
-     * @param  Array fill with everything (include role)
+     * @param  array fill with everything (include role)
+     *
      * @return Clase Created
      **/
     public function create($clasedata)
     {
-        $clase = new Clase;
+        $clase = new Clase();
         $clase->fill($clasedata);
         $clase->clave = str_random('16');
         $clase->user()->associate(Auth::user())->save();
+
         return $clase;
     }
+
     public function join($request)
     {
         $clase = Clase::all()->where('clave', '=', $request->clave)->first();
         if ($clase) {
             $clase->Users()->attach(Auth::id());
+
             return true;
         } else {
             return false;
         }
     }
+
     /**
-     * Find the specific Clase
+     * Find the specific Clase.
      *
      * @param  id
-     * @return \App\Models\Clase  $Clase
+     *
+     * @return \App\Models\Clase $Clase
      **/
     public function find($id)
     {
@@ -67,8 +72,9 @@ class ClaseRepository implements ClaseRepositoryInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  Array $formdata
-     * @param  Int $id
+     * @param array $formdata
+     * @param int   $id
+     *
      * @return Clase $Clase Updated Clase
      **/
     public function update($formdata, $id)
@@ -76,21 +82,25 @@ class ClaseRepository implements ClaseRepositoryInterface
         $Clase = $this->find($id);
         $Clase->fill($formdata);
         $Clase->save();
+
         return $Clase;
     }
 
     /**
      * Remove the specified Clase from storage.
      *
-     * @param  Int $id
-     * @return Boolean
+     * @param int $id
+     *
+     * @return bool
      **/
     public function destroy($id)
     {
         $Clase = $this->find($id);
         $Clase->delete();
+
         return true;
     }
+
     public function getClase($id)
     {
         return $this->find($id);

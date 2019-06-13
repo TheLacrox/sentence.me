@@ -3,15 +3,16 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CompilarJava implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $fichero;
+
     /**
      * Create a new job instance.
      *
@@ -19,7 +20,7 @@ class CompilarJava implements ShouldQueue
      */
     public function __construct($fichero)
     {
-        $this->fichero=$fichero;
+        $this->fichero = $fichero;
     }
 
     /**

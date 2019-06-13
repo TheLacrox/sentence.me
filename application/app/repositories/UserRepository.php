@@ -3,12 +3,11 @@
 namespace App\Repositories;
 
 use App\User;
-use App\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
     /**
-     * Return all the users
+     * Return all the users.
      *
      * @return User list
      **/
@@ -20,22 +19,25 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Store a newly created User in storage.
      *
-     * @param  Array fill with everything (include role)
+     * @param  array fill with everything (include role)
+     *
      * @return User Created
      **/
     public function save($userdata)
     {
-        $user = new User;
+        $user = new User();
         $user->fill($userdata)->save();
         $user->assignRole($userdata['role']);
+
         return $user;
     }
 
     /**
-     * Find the specific User
+     * Find the specific User.
      *
      * @param  id
-     * @return \App\Models\User  $user
+     *
+     * @return \App\Models\User $user
      **/
     public function find($id)
     {
@@ -45,8 +47,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  Array $formdata
-     * @param  Int $id
+     * @param array $formdata
+     * @param int   $id
+     *
      * @return User $user Updated user
      **/
     public function update($formdata, $id)
@@ -55,19 +58,22 @@ class UserRepository implements UserRepositoryInterface
         $user->fill($formdata);
         $user->status_id = $formdata['status'];
         $user->save();
+
         return $user;
     }
 
     /**
      * Remove the specified User from storage.
      *
-     * @param  Int $id
-     * @return Boolean
+     * @param int $id
+     *
+     * @return bool
      **/
     public function destroy($id)
     {
         $user = $this->find($id);
         $user->delete();
+
         return true;
     }
 }

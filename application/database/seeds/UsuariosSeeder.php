@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Collection;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UsuariosSeeder extends Seeder
@@ -16,17 +16,17 @@ class UsuariosSeeder extends Seeder
     {
         Collection::make([
             [
-                'name'=>'alumno1',
-                'email'=>'alumno1@gmail.com',
-                'password'=>Hash::make('adminadmin')
+                'name'    => 'alumno1',
+                'email'   => 'alumno1@gmail.com',
+                'password'=> Hash::make('adminadmin'),
             ],
             [
-                'name'=>'alumno2',
-                'email'=>'alumno2@gmail.com',
-                'password'=>Hash::make('adminadmin')
+                'name'    => 'alumno2',
+                'email'   => 'alumno2@gmail.com',
+                'password'=> Hash::make('adminadmin'),
             ],
-        ])->each(function($item){
-            $user=User::updateOrCreate(
+        ])->each(function ($item) {
+            $user = User::updateOrCreate(
                 ['email'=>$item['email']],
                 $item
             );
@@ -34,18 +34,18 @@ class UsuariosSeeder extends Seeder
         });
         Collection::make([
             [
-                'name'=>'profesor1',
-                'email'=>'profesor1@gmail.com',
-                'password'=>Hash::make('adminadmin')
+                'name'    => 'profesor1',
+                'email'   => 'profesor1@gmail.com',
+                'password'=> Hash::make('adminadmin'),
             ],
             [
-                'name'=>'profesor2',
-                'email'=>'profesor2@gmail.com',
-                'password'=>Hash::make('adminadmin')
+                'name'    => 'profesor2',
+                'email'   => 'profesor2@gmail.com',
+                'password'=> Hash::make('adminadmin'),
 
             ],
-        ])->each(function($item){
-            $user=User::updateOrCreate(
+        ])->each(function ($item) {
+            $user = User::updateOrCreate(
                 ['email'=>$item['email']],
                 $item
             );

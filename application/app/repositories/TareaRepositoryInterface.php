@@ -2,40 +2,47 @@
 
 namespace App\Repositories;
 
-
 interface TareaRepositoryInterface
 {
     /**
-     * Coge las tareas de una clase
+     * Coge las tareas de una clase.
      *
      * @param Clase $clase
-     * @return Array Lista de  Tareas
+     *
+     * @return array Lista de  Tareas
      */
     public function getTareas($clase);
+
     /**
-     * Crea Una Tarea con los datos del formulario
+     * Crea Una Tarea con los datos del formulario.
      *
-     * @param Array $formdata
-     * @param Int $claseid
+     * @param array $formdata
+     * @param int   $claseid
+     *
      * @return Tarea $tarea
      */
     public function create($formdata, $claseid);
+
     /**
-     * Recupera una tarea Mediante su id
+     * Recupera una tarea Mediante su id.
      *
-     * @param Int $id
+     * @param int $id
+     *
      * @return Tarea $tarea
      */
     public function getTarea($id);
+
     /**
-     * Actualiza una tarea con los datos del request
+     * Actualiza una tarea con los datos del request.
      *
      * @param Request $formdata
-     * @param Int $tareaid
+     * @param int     $tareaid
+     *
      * @return Tarea $tareaactualizada
      */
     public function update($formdata, $tareaid);
 
     public function getRespuestas($tareaid);
+
     public function destroy($tareaid);
 }
