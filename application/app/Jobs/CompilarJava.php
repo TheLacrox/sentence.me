@@ -11,15 +11,15 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class CompilarJava implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    protected $fichero;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($fichero)
     {
-        //
+        $this->fichero=$fichero;
     }
 
     /**
@@ -29,6 +29,6 @@ class CompilarJava implements ShouldQueue
      */
     public function handle()
     {
-        $resultado = shell_exec('javac  ' . $this->ubicacion . ' ' . $this->nombre . ' ' . $this->argumentos . " ");
+        $resultado = shell_exec('javac '.$this->fichero);
     }
 }

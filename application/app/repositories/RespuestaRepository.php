@@ -6,6 +6,7 @@ use App\Respuesta;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\CheckRespuesta;
 use Illuminate\Support\Carbon;
+use App\Jobs\CompilarJava;
 
 class RespuestaRepository implements RespuestaRepositoryInterface
 {
@@ -41,13 +42,14 @@ class RespuestaRepository implements RespuestaRepositoryInterface
      * @param Respuesta $respuesta
      * @return void
      */
-    public function compilar()
+    public function compilar($fichero)
     {
-        
+        CompilarJava::dispatch($fichero);
     }
     public function comprobar($respuesta)
     {
         $fichero = $respuesta->getFirstMedia();
+        $this->compilar($fichero->getPath());
         $ubicacion = str_replace($fichero->file_name, '', $fichero->getPath());
         $nombre = $fichero->name;
         $argumentos="";
