@@ -17,7 +17,3 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 WORKDIR /var/www
-# Wait for database container to be available to execute startup script
-# Prevent container to return after command execution
-# CMD wait-for-it.sh ${APP_SLUG}-mysql:3306 -- startup.sh && \
-#     php-fpm
