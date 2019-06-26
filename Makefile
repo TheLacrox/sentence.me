@@ -1,4 +1,4 @@
-include .env
+-include .env
 container=${APP_SLUG}_php-fpm
 
 up:
@@ -45,3 +45,7 @@ app-init:
 	docker exec ${container} php artisan key:generate -n
 
 dev: up composer-install app-init migrate-fresh
+
+run: 
+	cd .\application &	npm i
+	cd .\application &	npm run dev
