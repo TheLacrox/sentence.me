@@ -1,0 +1,16 @@
+name: CD To Staging on Develop
+on: 
+  push:
+    branches: 
+      - develop
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Staging
+      uses: appleboy/ssh-action@master
+      env:
+        USERNAME: ${{ secrets.SSH_USER }}
+        HOST: ${{ secrets.SSH_HOST }}
+        SCRIPT: ~/deployment.sh
+        KEY: ${{ secrets.SSH_DEPLOYMENT_KEY }}
