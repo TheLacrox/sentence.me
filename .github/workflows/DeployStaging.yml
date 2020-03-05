@@ -15,7 +15,7 @@ jobs:
         KEY: ${{ secrets.SSH_DEPLOYMENT_KEY }}
       with:
         script: |
-          rm -r sentence.me
+          sudo rm -r sentence.me
           git clone https://github.com/TheLacrox/sentence.me.git
           cd sentence.me 
           git checkout develop 
