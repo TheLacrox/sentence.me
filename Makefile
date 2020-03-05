@@ -47,8 +47,8 @@ app-init:
 dev: up composer-install app-init migrate-fresh
 
 run: 
-	cd ./application &	npm i
-	cd ./application &	npm run dev
+	npm i --prefix ./application
+	npm run dev --prefix ./application 
 	
 permission:
 	chgrp -R www-data ./application/storage ./application/bootstrap/cache
