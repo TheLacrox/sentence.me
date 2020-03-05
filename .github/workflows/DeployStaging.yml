@@ -12,5 +12,10 @@ jobs:
       env:
         USERNAME: ${{ secrets.SSH_USER }}
         HOST: ${{ secrets.SSH_HOST }}
-        SCRIPT: git clone https://github.com/TheLacrox/sentence.me.git | cd sentence.me | git checkout develop | deployment.sh
         KEY: ${{ secrets.SSH_DEPLOYMENT_KEY }}
+      with:
+        script: |
+          git clone https://github.com/TheLacrox/sentence.me.git
+          cd sentence.me 
+          git checkout develop 
+          deployment.sh
