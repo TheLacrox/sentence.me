@@ -1,0 +1,12 @@
+
+name: Docker Image CI
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: make build
