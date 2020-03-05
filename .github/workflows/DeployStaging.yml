@@ -19,4 +19,7 @@ jobs:
           git clone https://github.com/TheLacrox/sentence.me.git
           cd sentence.me 
           git checkout develop 
-          deployment.sh
+          git pull;
+          sudo make build;
+          sudo make dev;
+          sudo make run;
