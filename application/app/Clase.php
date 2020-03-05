@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Clase extends Model
 {
     protected $fillable = ['nombre', 'descripcion', 'clave'];
-
+    //h
     public function Users()
     {
         return $this->belongsToMany('App\User');
